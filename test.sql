@@ -1,4 +1,4 @@
--- DROP TABLE IF EXISTS (users); 
+-- DROP TABLE keeps;
 
 -- CREATE TABLE users (
 --     id VARCHAR (255) NOT NULL,
@@ -25,9 +25,12 @@
 --     id int NOT NULL AUTO_INCREMENT,
 --     name VARCHAR(20) NOT NULL,
 --     description VARCHAR(255) NOT NULL,
---     userId VARCHAR(255) NOT NULL,
---     INDEX userId (userId),
---     FOREIGN KEY (userId)
+--     authorId VARCHAR(255) NOT NULL,
+--     share int NOT NULL,
+--     view int NOT NULL,
+--     publish BOOLEAN NOT NULL,   
+--     INDEX authorId (authorId),
+--     FOREIGN KEY (authorId)
 --         REFERENCES users(id)
 --         ON DELETE CASCADE,  
 --     PRIMARY KEY (id)
@@ -37,13 +40,13 @@
 --     id int NOT NULL AUTO_INCREMENT,
 --     vaultId int NOT NULL,
 --     keepId int NOT NULL,
---     userId int NOT NULL,
+--     authorId VARCHAR(255) NOT NULL,
 
 --     PRIMARY KEY (id),
 --     INDEX (vaultId, keepId),
---     INDEX (userId),
+--     INDEX (authorId),
 
---     FOREIGN KEY (userId)
+--     FOREIGN KEY (authorId)
 --         REFERENCES users(id)
 --         ON DELETE CASCADE,
 

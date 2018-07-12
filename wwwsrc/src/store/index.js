@@ -8,7 +8,7 @@ import router from '../router'
 vue.use(vuex)
 
 var baseUrl = "//localhost:5000";
-
+//var baseUrl = "https://www.freemysqlhosting.net/"
 // Google places API Key: AIzaSyA2l-r77x24uatF20-TRoAEceNL_fRKjcg
 
 var server = axios.create({
@@ -29,10 +29,12 @@ export default new vuex.Store({
     setUser(state, user) {
       state.user = user
     },
-    
-    // addTrip(state, trip) {
-    //   state.userTrips.unshift(trip)
-    // },
+    setUserVaults(state, vaults){
+      state.userVaults = vaults
+    },
+    addVault(state, vault) {
+      state.userVaults.unshift(vault)
+    },
     // setApiResults(state, results) {
     //   state.apiResults = results
     // },
@@ -93,9 +95,10 @@ export default new vuex.Store({
     login({ dispatch, commit }, payload) {
       server.post('/account/login/', payload)
         .then(user => {
-        //  router.push('/')
+        router.push({name: 'Home'})
         console.log(user)
           commit('setUser', user)
+        //  dispatch('authenticate')
         })
         .catch(res => {
           console.log(res.data)
@@ -105,21 +108,19 @@ export default new vuex.Store({
       server.post('/account/register/', payload)
         .then(
           newUser => {
-          console.log("WHAT THE SHIT!!!!")  
           router.push('/')
           commit('setUser', newUser)
         })
         .catch(res => {
-       //   debugger
           console.log(res, "error")
         })
     },
     authenticate({ commit, dispatch }, bool) {
-      server.get('/authenticate')
+      server.get('/account/authenticate')
         .then(res => {
-          commit('setUser', res.data.data)
-          
-          router.push('/')
+         debugger 
+          commit('setUser', res.data)
+          router.push('/home')
         })
         .catch(res => {
           console.log(res)
@@ -129,11 +130,26 @@ export default new vuex.Store({
       server.delete('/logout')
         .then(res => {
           commit('setUser', {})
-          router.push({ name: 'User' })
+          router.push({ name: 'Login' })
         })
         .catch(res => {
           console.log(res.data)
         })
+    },
+    createUserVault({commit, dispatch}, vault){
+      server.post('api/vault', vault)
+      .then(res=>{
+        commit('addVault', res.data)
+      })
+    },
+
+    getUserVaults({commit, dispatch}){
+      server.get('/api/vault')
+      .then(res=>{
+    //    debugger
+        console.log(res)
+        commit('setUserVaults', res.data)
+    })
     }
   }
 })

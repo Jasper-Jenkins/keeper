@@ -14,17 +14,17 @@ namespace API_Users.Controllers
     [Authorize]
     [Route("api/[controller]")]
       
-    public class VaultController : ControllerBase
+    public class KeepController : ControllerBase
     {
-        private readonly VaultRepository _db;
+        private readonly KeepRepository _db;
                 // GET api/values
-        public VaultController(VaultRepository repo)
+        public KeepController(KeepRepository repo)
         {
             _db = repo;
         }
         
         // [HttpGet]
-        // public IEnumerable<Vault> GetUserVaults()
+        // public IEnumerable<Keep> GetUserKeeps()
         // {
         //     return _db.GetAll();
         // }
@@ -33,50 +33,49 @@ namespace API_Users.Controllers
         // [HttpGet("{id}")]
         // public string Get(int id)
         // {
-        //    return _db.GetbyVaultId(id);
+        //    return _db.GetbyKeepId(id);
         // }
 
         [HttpGet("{id}")]
-        public Vault Get(int id)
+        public Keep Get(int id)
         {
-           return _db.GetbyVaultId(id);
+           return _db.GetbyKeepId(id);
         }
 
         [HttpGet]
-        public IEnumerable<Vault> Get()
+        public IEnumerable<Keep> Get()
         {
          var user = HttpContext.User;
          var Id = user.Identity.Name;
          return _db.GetbyAuthorId(Id);
         }
 
-        // POST api/vault/
+        // POST api/keep/
         [HttpPost]
-        public Vault CreateVault([FromBody]Vault value)
+        public Keep CreateKeep([FromBody]Keep value)
         {
             var user = HttpContext.User;
             value.AuthorId = user.Identity.Name;
             
-            
             if (ModelState.IsValid)
             {
-                 return _db.CreateVault(value);
+                 return _db.CreateKeep(value);
             }
             return null;
         }
 
      //   PUT api/user/5
         [HttpPut("user/{id}")]
-        public Vault Put(int id, [FromBody]Vault value) // 
+        public Keep Put(int id, [FromBody]Keep value) // 
         {
-             return _db.EditVault(id, value);
+             return _db.EditKeep(id, value);
         }
 
         // DELETE api/
         [HttpDelete]
-        public void Delete([FromBody]Vault value)
+        public void Delete([FromBody]Keep value)
         {
-           _db.DeleteVault(value.Id);
+           _db.DeleteKeep(value.Id);
         }
     }
 }

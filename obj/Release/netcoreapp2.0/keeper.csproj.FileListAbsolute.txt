@@ -1,0 +1,11 @@
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\bin\Release\netcoreapp2.0\keeper.deps.json
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\bin\Release\netcoreapp2.0\keeper.runtimeconfig.json
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\bin\Release\netcoreapp2.0\keeper.runtimeconfig.dev.json
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\bin\Release\netcoreapp2.0\keeper.dll
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\bin\Release\netcoreapp2.0\keeper.pdb
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\obj\Release\netcoreapp2.0\keeper.csprojAssemblyReference.cache
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\obj\Release\netcoreapp2.0\keeper.csproj.CoreCompileInputs.cache
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\obj\Release\netcoreapp2.0\keeper.AssemblyInfoInputs.cache
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\obj\Release\netcoreapp2.0\keeper.AssemblyInfo.cs
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\obj\Release\netcoreapp2.0\keeper.dll
+C:\Users\Jasper\source\codeworks\C_SHARP\keeper\obj\Release\netcoreapp2.0\keeper.pdb

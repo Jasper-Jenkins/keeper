@@ -9,7 +9,6 @@ namespace API_Users.Repositories
   {
     public VaultRepository(IDbConnection db) : base(db)
     {
-
     }
     // Create Vault
     public Vault CreateVault(Vault newVault)
@@ -60,11 +59,11 @@ namespace API_Users.Repositories
       return null;
     }
     // Delete
-    public bool DeleteVault(int id)
+    public bool DeleteVault(int id) //string authorId
     {
       var i = _db.Execute(@"
       DELETE FROM vaults
-      WHERE id = @id
+      WHERE id = @id  //AND authorId = @authorId
       LIMIT 1;
       ", new { id });
       if (i > 0)
