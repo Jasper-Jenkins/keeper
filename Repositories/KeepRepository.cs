@@ -38,6 +38,11 @@ namespace API_Users.Repositories
     {
       return _db.Query<Keep>("SELECT * FROM keeps WHERE authorId = @id;", new { id });
     }
+    //GetbyVault
+    public IEnumerable<Keep> GetbyVaultId(int id)
+    {
+      return _db.Query<Keep>("SELECT * FROM keeps WHERE vaultId = @id;", new { id });
+    }
     // GetbyId
     public Keep GetbyKeepId(int id)
     {
@@ -49,8 +54,7 @@ namespace API_Users.Repositories
       post.Id = id;
       var i = _db.Execute(@"
                 UPDATE keeps SET
-                    name = @Name,
-                    description = @Description
+                   views = views + 1
                 WHERE id = @Id
             ", post);
       if (i > 0)
@@ -64,9 +68,9 @@ namespace API_Users.Repositories
     {
       var i = _db.Execute(@"
       DELETE FROM keeps
-      WHERE id = @id  //AND authorId = @authorId
+      WHERE id = @id
       LIMIT 1;
-      ", new { id });
+      ", new { id });   //AND authorId = @authorId
       if (i > 0)
       {
         return true;

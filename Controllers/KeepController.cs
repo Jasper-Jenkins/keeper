@@ -23,26 +23,26 @@ namespace API_Users.Controllers
             _db = repo;
         }
         
-        // [HttpGet]
-        // public IEnumerable<Keep> GetUserKeeps()
-        // {
-        //     return _db.GetAll();
-        // }
+        [HttpGet]
+        public IEnumerable<Keep> GetUserKeeps()
+        {
+            return _db.GetAll();
+        }
 
-        // GET api/values/5
-        // [HttpGet("{id}")]
-        // public string Get(int id)
-        // {
-        //    return _db.GetbyKeepId(id);
-        // }
+         // GET api/vault/:id/keep/:id
+        [HttpGet("vault/{id}")]
+        public IEnumerable<Keep> Get(int id)
+        {
+           return _db.GetbyVaultId(id);
+        }
 
         [HttpGet("{id}")]
-        public Keep Get(int id)
+        public Keep GetbyKeepId(int id)
         {
            return _db.GetbyKeepId(id);
         }
 
-        [HttpGet]
+        [HttpGet("author")]
         public IEnumerable<Keep> Get()
         {
          var user = HttpContext.User;
@@ -51,15 +51,15 @@ namespace API_Users.Controllers
         }
 
         // POST api/keep/
-        [HttpPost]
-        public Keep CreateKeep([FromBody]Keep value)
+        [HttpPost("{id}")]
+        public Keep CreateKeep(int id, [FromBody]Keep newKeep)
         {
             var user = HttpContext.User;
-            value.AuthorId = user.Identity.Name;
+            newKeep.AuthorId = user.Identity.Name;
             
             if (ModelState.IsValid)
             {
-                 return _db.CreateKeep(value);
+                 return _db.CreateKeep(newKeep);
             }
             return null;
         }

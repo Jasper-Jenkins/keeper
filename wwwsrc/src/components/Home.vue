@@ -13,18 +13,25 @@
 
 
    <div v-for="vault in vaults" v-bind:key="vault._id">
-     <a @click="showKeeps(vault)"> 
-     {{vault.description}}
-     </a>
+     <!-- <a @click="showKeeps(vault)"> 
+       
+      <router-link @click.native="setActiveVault(vault)" :to="{name: 'Vault', params: {id: vault._id}}" :key="vault._id">
+        {{vault.description}}
+      </router-link>
+     </a> -->
+   
+     <button @click="setActiveVault(vault)">{{vault.description}}</button>
    </div>
-  
-  
+  <vault></vault>
+  <keep></keep>
 
   </div>
 </template>
 
 <script>
 import router from "../router"
+import vault from "./Vault"
+import keep from "./Keep"
 export default {
   name: 'Home',
   data () {
@@ -33,10 +40,15 @@ export default {
      user: {},
      
      vault:{
+        //  type:Object,
           Name: '',
           Description: '',
       }, 
     }
+  },
+  components:{
+    vault,
+    keep
   },
   mounted() {
   
@@ -60,6 +72,9 @@ export default {
 
     addVault(){
       this.$store.dispatch('createUserVault', this.vault)
+    },
+    setActiveVault(vault){
+      this.$store.dispatch('setActiveVault', vault)
     },
     
     
