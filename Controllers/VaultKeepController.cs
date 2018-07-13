@@ -50,16 +50,17 @@ namespace API_Users.Controllers
          return _db.GetbyAuthorId(Id);
         }
 
-        // POST api/keep/
-        [HttpPost("{id}")]
-        public VaultKeep CreateVaultKeep(int id, [FromBody]VaultKeep newVaultKeep)
+        // POST api/vaultkeep/
+        [HttpPost("{keepId}")]
+        public string CreateVaultKeep(int keepId, [FromBody]VaultKeep newVaultKeep)
         {
             var user = HttpContext.User;
-            newVaultKeep.AuthorId = user.Identity.Name;
-            newVaultKeep.VaultId = id;
+          //  newVaultKeep.AuthorId = user.Identity.Name;
+           // newVaultKeep.VaultId = id;
+           
             if (ModelState.IsValid)
             {
-                 return _db.CreateVaultKeep(newVaultKeep);
+                 return _db.CreateVaultKeep(newVaultKeep, keepId);
             }
             return null;
         }

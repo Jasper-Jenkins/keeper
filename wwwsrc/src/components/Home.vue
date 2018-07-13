@@ -59,8 +59,9 @@ export default {
     {
         router.push({name: "Login"})
     }
+   // debugger
     this.$store.dispatch("getUserVaults")
-
+   // this.$store.dispatch('getKeeps')
 
   }, 
   computed: {
@@ -76,8 +77,6 @@ export default {
     setActiveVault(vault){
       this.$store.dispatch('setActiveVault', vault)
     },
-    
-    
     showKeeps(vault){
       this.$store.dispatch("getVaultKeeps")
 

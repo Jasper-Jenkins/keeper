@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_Users.Controllers
 {
-    [Authorize]
+   
     [Route("api/[controller]")]
       
     public class KeepController : ControllerBase
@@ -29,7 +29,7 @@ namespace API_Users.Controllers
             return _db.GetAll();
         }
 
-         // GET api/vault/:id/keep/:id
+         // GET api/vault/:id
         [HttpGet("vault/{id}")]
         public IEnumerable<Keep> Get(int id)
         {
@@ -50,9 +50,9 @@ namespace API_Users.Controllers
          return _db.GetbyAuthorId(Id);
         }
 
-        // POST api/keep/
-        [HttpPost("{id}")]
-        public Keep CreateKeep(int id, [FromBody]Keep newKeep)
+        // POST api/keep/:
+        [HttpPost]
+        public Keep CreateKeep([FromBody]Keep newKeep)
         {
             var user = HttpContext.User;
             newKeep.AuthorId = user.Identity.Name;

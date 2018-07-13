@@ -49,17 +49,17 @@ namespace API_Users.Repositories
       return _db.QueryFirstOrDefault<Keep>("SELECT * FROM keeps WHERE id = @id;", new { id });
     }
     // Edit
-    public Keep EditKeep(int id, Keep post)
+    public Keep EditKeep(int id, Keep newKeep)
     {
-      post.Id = id;
+      newKeep.Id = id;
       var i = _db.Execute(@"
                 UPDATE keeps SET
                    views = views + 1
                 WHERE id = @Id
-            ", post);
+            ", newKeep);
       if (i > 0)
       {
-        return post;
+        return newKeep;
       }
       return null;
     }

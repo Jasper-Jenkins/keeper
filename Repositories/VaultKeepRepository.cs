@@ -11,22 +11,43 @@ namespace API_Users.Repositories
     {
     }
     // Create VaultKeep
-    public VaultKeep CreateVaultKeep(VaultKeep newVaultKeep)
+      public string CreateVaultKeep(VaultKeep newKeep, int keepId)
     {
-      int id = _db.ExecuteScalar<int>(@"
-                INSERT INTO vaultkeeps (vaultId, keepId, authorId)
-                VALUES (@VaultId, @KeepId, @AuthorId);
+      var i = _db.Execute(@"
+                UPDATE keeps SET
+                    keeps = keeps + 1
+                WHERE id = @keepId;
+            ", new {keepId});
+      if (i > 0)
+      {
+        int id = _db.ExecuteScalar<int>(@"
+                INSERT INTO vaultKeeps (keepId, authorId, vaultId)
+                VALUES (@KeepId, @AuthorId, @VaultId);
                 SELECT LAST_INSERT_ID();
-            ", newVaultKeep);
-      newVaultKeep.Id = id;
-      return newVaultKeep;
-    //   {
-    //       Id = newVaultKeep.Id, 
-    //       Name = newVaultKeep.Name,
-    //       Description = newVaultKeep.Description,
-    //       AuthorId = newVaultKeep.AuthorId
-    //   };
+            ", newKeep);
+        return "Successfully Added!";
+      }
+      return "Failed To Add!";
     }
+
+
+
+    // public VaultKeep CreateVaultKeep(VaultKeep newVaultKeep)
+    // {
+    //   int id = _db.ExecuteScalar<int>(@"
+    //             INSERT INTO vaultkeeps (vaultId, keepId, authorId)
+    //             VALUES (@VaultId, @KeepId, @AuthorId);
+    //             SELECT LAST_INSERT_ID();
+    //         ", newVaultKeep);
+    //   newVaultKeep.Id = id;
+    //   return newVaultKeep;
+    // //   {
+    // //       Id = newVaultKeep.Id, 
+    // //       Name = newVaultKeep.Name,
+    // //       Description = newVaultKeep.Description,
+    // //       AuthorId = newVaultKeep.AuthorId
+    // //   };
+    // }
     // GetAll VaultKeep
     public IEnumerable<VaultKeep> GetAll()
     {

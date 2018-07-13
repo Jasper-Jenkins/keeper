@@ -8,7 +8,7 @@ import router from '../router'
 vue.use(vuex)
 
 var baseUrl = "//localhost:5000";
-//var baseUrl = "https://www.freemysqlhosting.net/"
+//var baseUrl = "https://keeper-1.herokuapp.com"
 // Google places API Key: AIzaSyA2l-r77x24uatF20-TRoAEceNL_fRKjcg
 
 var server = axios.create({
@@ -40,7 +40,10 @@ export default new vuex.Store({
       state.activeVault = vault
     },
     setKeep(state, keep){
-      state.keeps.unshift(keep)
+      state.keeps = keep
+    },
+    addVaultKeep(state, vaultKeep){
+      state.userKeeps.unshift(vaultKeep)
     }
 
     // setApiResults(state, results) {
@@ -163,16 +166,27 @@ export default new vuex.Store({
     })
     },
     createKeep({commit, dispatch}, keep){
-      server.post('/api/keep')
+      server.post('/api/keep', keep)
       .then(res=>{
         console.log(res)
-        commit('addKeep', res.data)
+        commit('setKeep', res.data)
       })
     },
-    getKeeps({commit, dispatch}, keep){
+    getKeeps({commit, dispatch}){
+     // debugger
       server.get('/api/keep')
       .then(res=>{
+        commit('setKeep', res.data)
         console.log(res)
+      })
+    },
+    createVaultKeep({commit, dispatch}, vaultKeep){
+      debugger
+      server.post('/api/vaultkeep/', vaultKeep.id)
+      .then(res=>{
+        debugger
+        commit('addVaultKeep', res.data)
+      
       })
     }
 
