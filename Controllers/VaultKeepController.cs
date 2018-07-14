@@ -37,9 +37,9 @@ namespace API_Users.Controllers
         // }
 
         [HttpGet("{id}")]
-        public VaultKeep Get(int id)
+        public IEnumerable<VaultKeep> Get(int id)
         {
-           return _db.GetbyVaultKeepId(id);
+           return _db.GetbyVaultId(id);
         }
 
         [HttpGet]
@@ -52,11 +52,11 @@ namespace API_Users.Controllers
 
         // POST api/vaultkeep/
         [HttpPost("{keepId}")]
-        public string CreateVaultKeep(int keepId, [FromBody]VaultKeep newVaultKeep)
+        public VaultKeep CreateVaultKeep(int keepId, [FromBody]VaultKeep newVaultKeep)
         {
             var user = HttpContext.User;
           //  newVaultKeep.AuthorId = user.Identity.Name;
-           // newVaultKeep.VaultId = id;
+            newVaultKeep.KeepId = keepId;
            
             if (ModelState.IsValid)
             {

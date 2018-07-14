@@ -11,11 +11,11 @@ namespace API_Users.Repositories
     {
     }
     // Create VaultKeep
-      public string CreateVaultKeep(VaultKeep newKeep, int keepId)
+      public VaultKeep CreateVaultKeep(VaultKeep newKeep, int keepId)
     {
       var i = _db.Execute(@"
                 UPDATE keeps SET
-                    keeps = keeps + 1
+                    share = share + 1
                 WHERE id = @keepId;
             ", new {keepId});
       if (i > 0)
@@ -25,9 +25,11 @@ namespace API_Users.Repositories
                 VALUES (@KeepId, @AuthorId, @VaultId);
                 SELECT LAST_INSERT_ID();
             ", newKeep);
-        return "Successfully Added!";
+        return newKeep;  
+        // return "Successfully Added!";
       }
-      return "Failed To Add!";
+      return null;
+    //   return "Failed To Add!";
     }
 
 
@@ -58,10 +60,18 @@ namespace API_Users.Repositories
     {
       return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps WHERE authorId = @id;", new { id });
     }
+
+    public IEnumerable<VaultKeep> GetbyVaultId(int id)
+    {
+      return _db.Query<VaultKeep>(@"SELECT * FROM vaultkeep
+              INNER JOIN keeps ON keeps.id = vaultkeep.keepId 
+              WHERE vaultkeep.vaultId = @id;
+              ", new { id });
+    }
     // GetbyId
     public VaultKeep GetbyVaultKeepId(int id)
     {
-      return _db.QueryFirstOrDefault<VaultKeep>("SELECT * FROM vaultkeeps WHERE id = @id;", new { id });
+      return _db.QueryFirstOrDefault<VaultKeep>("SELECT * FROM vaultkeeps WHERE vaultId = @id;", new { id });
     }
     // Edit
     public VaultKeep EditVaultKeep(int id, VaultKeep vaultkeep)

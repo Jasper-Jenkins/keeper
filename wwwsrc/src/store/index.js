@@ -23,6 +23,7 @@ export default new vuex.Store({
     userVaults: [],
     activeVault: {},
     keeps:[],
+    vaultKeeps: [],
     userKeeps:[],
     activeKeep: {}
   },
@@ -44,6 +45,9 @@ export default new vuex.Store({
     },
     addVaultKeep(state, vaultKeep){
       state.userKeeps.unshift(vaultKeep)
+    },
+    setVaultKeeps(state, vaultKeeps){
+      state.vaultKeeps = vaultKeeps
     }
 
     // setApiResults(state, results) {
@@ -182,11 +186,25 @@ export default new vuex.Store({
     },
     createVaultKeep({commit, dispatch}, vaultKeep){
       debugger
-      server.post('/api/vaultkeep/', vaultKeep.id)
+      server.post('/api/vaultkeep/'+vaultKeep.id, vaultKeep)
       .then(res=>{
         debugger
         commit('addVaultKeep', res.data)
       
+      })
+      .catch(res => {
+        console.log(res.data)
+      })
+    }, 
+    getVaultKeeps({commit, dispatch}, vaultId){
+      debugger
+      server.get('/api/vaultkeep/'+vaultId)
+      .then(res=>{
+        debugger
+        commit('setVaultKeeps', res.data)        
+      })
+      .catch(res=>{
+        console.log(Response)
       })
     }
 

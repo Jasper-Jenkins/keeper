@@ -1,10 +1,10 @@
 <template>
   <div class="vault">
-   {{vault.name}}
-   {{vault.description}}
-    <!-- <div v-for="keeps in vault" v-bind:key="keeps._id">
-    {{keeps.name}}
-    </div> -->
+   {{activeVault.name}}
+   {{activeVault.description}}
+    <div v-for="keeps in vaultKeepers" v-if="keeps.vaultId == activeVault.id" v-bind:key="keeps._id">
+    {{keeps.id}}
+    </div>
   </div>
 </template>
 
@@ -14,19 +14,31 @@ export default {
   data () {
     return {
     
-   // vault:{}
+   vault:{
+       id: this.$store.state.activeVault.id
+   }
     }
   },
   mounted() {
-    //  this.vault = this.$store.state.activeVault
+//     debugger
+//    this.$store.dispatch("getVaultKeeps", this.vault.id)
    
   },
   computed:{
-      vault(){
+      activeVault(){
+         debugger
+        this.$store.dispatch("getVaultKeeps", this.$store.state.activeVault.id)
         return this.$store.state.activeVault
+     //   this.$store.dispatch("getVaultKeeps", this.vault.id)
       },
-      vaultkeeps(){
-        return this.$store.state
+      vaultKeepers(){
+        debugger
+        return this.$store.state.vaultKeeps
+      },
+      getVaultKeep(){
+      //    debugger
+         this.$store.dispatch("getVaultKeeps", this.vault.id)
+   
       }
        
   }

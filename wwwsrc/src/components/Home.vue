@@ -75,6 +75,7 @@ export default {
       this.$store.dispatch('createUserVault', this.vault)
     },
     setActiveVault(vault){
+    //  debugger
       this.$store.dispatch('setActiveVault', vault)
     },
     showKeeps(vault){
