@@ -36,21 +36,32 @@ namespace API_Users.Controllers
         //    return _db.GetbyVaultKeepId(id);
         // }
 
+        // /api/vaultkeep/:id
         [HttpGet("{id}")]
         public IEnumerable<VaultKeep> Get(int id)
         {
            return _db.GetbyVaultId(id);
         }
-
+        // /api/vaultkeep
         [HttpGet]
-        public IEnumerable<VaultKeep> Get()
+        public IEnumerable<VaultKeep> GetbyAuthorId()
         {
          var user = HttpContext.User;
          var Id = user.Identity.Name;
+
          return _db.GetbyAuthorId(Id);
         }
+     //   /api/vaultkeeps/keeps   accessing 
+        // [HttpGet("/keeps")]
+        // public IEnumerable<Keep> GetKeepsforVault([FromBody]VaultKeep vaultKeeps)
+        // {
+        //  var user = HttpContext.User;
+        //  var Id = user.Identity.Name;
 
-        // POST api/vaultkeep/
+        //  return _db.GetKeepsforVaultKeepsKeepId(vaultKeeps);
+        // }
+
+        // POST api/vaultkeep/{keepId}
         [HttpPost("{keepId}")]
         public VaultKeep CreateVaultKeep(int keepId, [FromBody]VaultKeep newVaultKeep)
         {
@@ -72,11 +83,12 @@ namespace API_Users.Controllers
              return _db.EditVaultKeep(id, value);
         }
 
-        // DELETE api/
-        [HttpDelete]
-        public void Delete([FromBody]VaultKeep value)
+        // DELETE api/vaultkeep/delete/{vaultId}/{keepId}
+        [HttpDelete("delete/{vaultId}/{keepId}")]
+        public void DeleteVaultKeep(int vaultId, int keepId)
         {
-           _db.DeleteVaultKeep(value.Id);
+            var user = HttpContext.User.Identity.Name;
+           _db.DeleteVaultKeep(vaultId, keepId, user);
         }
     }
 }

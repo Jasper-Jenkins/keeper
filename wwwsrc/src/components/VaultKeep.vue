@@ -46,7 +46,7 @@ export default {
   },
   methods: {
       createVaultKeep(keep){
-          debugger
+       //   debugger
           var author = this.$store.state.user.id
         //  keep.AuthorId = author;
           keep.vaultId = this.vault.id

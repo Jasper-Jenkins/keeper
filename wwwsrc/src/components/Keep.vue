@@ -61,7 +61,7 @@ export default {
   },
   methods: {
       createKeep(keep){
-          debugger
+        //  debugger
           var author = this.$store.state.user.id
           keep.AuthorId = author;
           this.$store.dispatch("createKeep", keep)

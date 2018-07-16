@@ -48,6 +48,9 @@ export default new vuex.Store({
     },
     setVaultKeeps(state, vaultKeeps){
       state.vaultKeeps = vaultKeeps
+    },
+    removeVaultKeep(state, vaultkeep){
+      state.vaultKeeps = vaultkeep
     }
 
     // setApiResults(state, results) {
@@ -188,7 +191,7 @@ export default new vuex.Store({
       debugger
       server.post('/api/vaultkeep/'+vaultKeep.id, vaultKeep)
       .then(res=>{
-        debugger
+        //debugger
         commit('addVaultKeep', res.data)
       
       })
@@ -197,16 +200,34 @@ export default new vuex.Store({
       })
     }, 
     getVaultKeeps({commit, dispatch}, vaultId){
-      debugger
+     // debugger
       server.get('/api/vaultkeep/'+vaultId)
       .then(res=>{
-        debugger
+    //   debugger
+      //  dispatch('setVaultKeeps', res)
         commit('setVaultKeeps', res.data)        
       })
       .catch(res=>{
         console.log(Response)
       })
-    }
+    },
+    setVaultKeeps({commit, dispatch}, keeps){
+      // debugger
+       server.get('/api/vaultkeep/keeps', keeps)
+       .then(res=>{
+         commit('setKeep', res.data)
+         console.log(res)
+       })
+     },
+     deleteVaultKeep({commit, dispatch}, vaultkeep){
+       debugger
+       server.delete('/api/vaultkeep/delete/'+vaultkeep.vaultId+'/'+vaultkeep.id)
+      .then(res=>{
+        debugger
+        commit("removeVaultKeep", vaultkeep.id)
+        })
+        .catch(res=>{console.log(res)})
+      }
 
   }
 })

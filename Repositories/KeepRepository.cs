@@ -43,6 +43,10 @@ namespace API_Users.Repositories
     {
       return _db.Query<Keep>("SELECT * FROM keeps WHERE vaultId = @id;", new { id });
     }
+     public IEnumerable<Keep> GetbyKeepId1(int id)
+    {
+      return _db.Query<Keep>("SELECT * FROM keeps WHERE keepId = @id;", new { id });
+    }
     // GetbyId
     public Keep GetbyKeepId(int id)
     {

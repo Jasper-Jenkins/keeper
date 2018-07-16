@@ -42,6 +42,11 @@ namespace API_Users.Controllers
            return _db.GetbyKeepId(id);
         }
 
+        // [HttpGet("/vaultkeeps/{id}")]
+        // public IEnumerable<Keep> GetbyKeepId1(int id)
+        // {
+        //    return _db.GetbyKeepId1(id);
+        // }
         [HttpGet("author")]
         public IEnumerable<Keep> Get()
         {

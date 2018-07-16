@@ -77,6 +77,7 @@ export default {
     setActiveVault(vault){
     //  debugger
       this.$store.dispatch('setActiveVault', vault)
+      
     },
     showKeeps(vault){
       this.$store.dispatch("getVaultKeeps")
