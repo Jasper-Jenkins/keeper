@@ -22,35 +22,38 @@ export default new vuex.Store({
     user: {},
     userVaults: [],
     activeVault: {},
-    keeps:[],
+    keeps: [],
     vaultKeeps: [],
-    userKeeps:[],
+    userKeeps: [],
     activeKeep: {}
   },
   mutations: {
     setUser(state, user) {
       state.user = user
     },
-    setUserVaults(state, vaults){
+    setUserVaults(state, vaults) {
       state.userVaults = vaults
     },
     addVault(state, vault) {
       state.userVaults.unshift(vault)
     },
-    setActiveVault(state, vault){
+    setActiveVault(state, vault) {
       state.activeVault = vault
     },
-    setKeep(state, keep){
+    setKeep(state, keep) {
       state.keeps = keep
     },
-    addVaultKeep(state, vaultKeep){
+    addVaultKeep(state, vaultKeep) {
       state.userKeeps.unshift(vaultKeep)
     },
-    setVaultKeeps(state, vaultKeeps){
+    setVaultKeeps(state, vaultKeeps) {
       state.vaultKeeps = vaultKeeps
     },
-    removeVaultKeep(state, vaultkeep){
+    removeVaultKeep(state, vaultkeep) {
       state.vaultKeeps = vaultkeep
+    },
+    viewKeep(state, keep){
+      state.activeKeep = keep
     }
 
     // setApiResults(state, results) {
@@ -112,11 +115,12 @@ export default new vuex.Store({
   actions: {
     login({ dispatch, commit }, payload) {
       server.post('/account/login/', payload)
-        .then(user => {
-        router.push({name: 'Home'})
-        console.log(user)
-          commit('setUser', user)
-        //  dispatch('authenticate')
+        .then(res => {
+          commit('setUser', res.data)
+          router.push({ name: 'Home' })
+          console.log(res.data)
+
+          //  dispatch('authenticate')
         })
         .catch(res => {
           console.log(res.data)
@@ -125,10 +129,10 @@ export default new vuex.Store({
     register({ dispatch, commit }, payload) {
       server.post('/account/register/', payload)
         .then(
-          newUser => {
-          router.push('/')
-          commit('setUser', newUser)
-        })
+          res => {
+            commit('setUser', res.data)
+            router.push({ name: 'Home' })
+          })
         .catch(res => {
           console.log(res, "error")
         })
@@ -136,9 +140,9 @@ export default new vuex.Store({
     authenticate({ commit, dispatch }, bool) {
       server.get('/account/authenticate')
         .then(res => {
-     //    debugger 
+          //    debugger 
           commit('setUser', res.data)
-          router.push('/home')
+          router.push({name: 'Home'})
         })
         .catch(res => {
           console.log(res)
@@ -154,80 +158,128 @@ export default new vuex.Store({
           console.log(res.data)
         })
     },
-    createUserVault({commit, dispatch}, vault){
+    createUserVault({ commit, dispatch }, vault) {
       server.post('api/vault', vault)
-      .then(res=>{
-        commit('addVault', res.data)
-      })
+        .then(res => {
+          commit('addVault', res.data)
+        })
     },
-    setActiveVault({commit, dispatch}, vault){
+    setActiveVault({ commit, dispatch }, vault) {
       commit('setActiveVault', vault)
     },
 
-    getUserVaults({commit, dispatch}){
+    getUserVaults({ commit, dispatch }) {
       server.get('/api/vault')
-      .then(res=>{
-    //    debugger
-        console.log(res)
-        commit('setUserVaults', res.data)
-    })
+        .then(res => {
+          //    debugger
+          console.log(res)
+          commit('setUserVaults', res.data)
+        })
     },
-    createKeep({commit, dispatch}, keep){
+    createKeep({ commit, dispatch }, keep) {
+    //  debugger
       server.post('/api/keep', keep)
-      .then(res=>{
-        console.log(res)
-        commit('setKeep', res.data)
-      })
+        .then(res => {
+          console.log(res)
+          dispatch('getKeeps')
+         // commit('setKeep', res.data)
+        })
     },
-    getKeeps({commit, dispatch}){
-     // debugger
+    getKeeps({ commit, dispatch }) {
+      // debugger
       server.get('/api/keep')
-      .then(res=>{
-        commit('setKeep', res.data)
-        console.log(res)
-      })
+        .then(res => {
+          commit('setKeep', res.data)
+          console.log(res)
+        })
     },
-    createVaultKeep({commit, dispatch}, vaultKeep){
-      debugger
-      server.post('/api/vaultkeep/'+vaultKeep.id, vaultKeep)
+    
+    deleteKeep({commit, dispatch}, keep){
+    // debugger
+      server.delete('/api/keep/'+ keep.id)
       .then(res=>{
-        //debugger
-        commit('addVaultKeep', res.data)
-      
+        dispatch('getKeeps')
+        console.log(res)
       })
       .catch(res => {
         console.log(res.data)
       })
-    }, 
-    getVaultKeeps({commit, dispatch}, vaultId){
-     // debugger
-      server.get('/api/vaultkeep/'+vaultId)
-      .then(res=>{
-    //   debugger
-      //  dispatch('setVaultKeeps', res)
-        commit('setVaultKeeps', res.data)        
-      })
-      .catch(res=>{
-        console.log(Response)
-      })
     },
-    setVaultKeeps({commit, dispatch}, keeps){
-      // debugger
-       server.get('/api/vaultkeep/keeps', keeps)
-       .then(res=>{
-         commit('setKeep', res.data)
-         console.log(res)
-       })
-     },
-     deleteVaultKeep({commit, dispatch}, vaultkeep){
-       debugger
-       server.delete('/api/vaultkeep/delete/'+vaultkeep.vaultId+'/'+vaultkeep.id)
-      .then(res=>{
-        debugger
-        commit("removeVaultKeep", vaultkeep.id)
+    viewKeep({commit, dispatch}, keep){
+      server.put('/api/keep/view/'+keep.id, keep)
+      commit('viewKeep', keep)
+      router.push({ name: 'ActiveKeep' })
+    },
+
+    // BUG: creates an asscosiated table, but if you delete a keep it no longer appears if anyone 
+    // has it in their vault. The aoociated table entry stays and cant be deleted or viewed by user. 
+    // Needd to create a table with 
+    createVaultKeep({ commit, dispatch }, vaultKeep) {
+    // debugger
+      server.post('/api/vaultkeep/' + vaultKeep.id, vaultKeep)
+        .then(res => {
+          //debugger
+          commit('addVaultKeep', res.data)
+
         })
-        .catch(res=>{console.log(res)})
-      }
+        .catch(res => {
+          console.log(res.data)
+        })
+    },
+    getVaultKeeps({ commit, dispatch }, vaultId) {
+      // debugger
+      server.get('/api/vaultkeep/' + vaultId)
+        .then(res => {
+          //   debugger
+          //  dispatch('setVaultKeeps', res)
+          commit('setVaultKeeps', res.data)
+        })
+        .catch(res => {
+          console.log(Response)
+        })
+    },
+    setVaultKeeps({ commit, dispatch }, keeps) {
+      // debugger
+      server.get('/api/vaultkeep/keeps', keeps)
+        .then(res => {
+          commit('setKeep', res.data)
+          console.log(res)
+        })
+    },
+    deleteVaultKeep({ commit, dispatch }, vaultkeep) {
+      //  debugger
+      server.delete('/api/vaultkeep/delete/' + vaultkeep.vaultId + '/' + vaultkeep.id)
+        .then(res => {
+          //  debugger
+          commit("removeVaultKeep", vaultkeep.id)
+        })
+        .catch(res => { console.log(res) })
+    },
+    publishKeep({ commit, dispatch }, keep) {
+      server.put('/api/keep/publish/' + keep.id, keep)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    logout({ commit, dispatch, state }) {
+      //  debugger
+      server.delete('/account/logout/' + state.user.id)
+        .then(res => {
+          state.user = {}
+          state.userVaults = []
+          state.activeVault =  {}
+          state.keeps = []
+          state.vaultKeeps = [] 
+          state.userKeeps = []
+          state.activeKeep = {}
+          router.push({ name: 'Login' })
+          console.log(res)
+        })
+    }
+
 
   }
 })

@@ -1,18 +1,14 @@
 <template>
-  <div class="home">
-   <p>Welcome to the home page {{user.username}}</p>
-  <div>
-   <form v-on:submit.prevent="addVault">
-        <input class="input" type="text" name="name" placeholder="Vault-Name" id="vaultName" v-model="vault.Name">
-        <input class="input" type="text" name="description" placeholder="Description" id="vaultDescription" v-model="vault.Description">
-        <button class="btn btn-primary btn-danger" type="submit">Add new Vault</button>
-    </form>
-  </div>
-
-
-
-
-   <div v-for="vault in vaults" v-bind:key="vault._id">
+  <div class="home container-fluid">
+    <p>Welcome to the home page {{user.username}}</p><button @click="logout">Logout</button>
+    <div>
+      <form v-on:submit.prevent="addVault">
+          <input class="input" type="text" name="name" placeholder="Vault-Name" id="vaultName" v-model="vault.Name">
+          <input class="input" type="text" name="description" placeholder="Description" id="vaultDescription" v-model="vault.Description">
+          <button class="btn btn-primary btn-danger" type="submit">Add new Vault</button>
+      </form>
+    </div>
+    <div v-for="vault in vaults" v-bind:key="vault._id">
      <!-- <a @click="showKeeps(vault)"> 
        
       <router-link @click.native="setActiveVault(vault)" :to="{name: 'Vault', params: {id: vault._id}}" :key="vault._id">
@@ -20,8 +16,8 @@
       </router-link>
      </a> -->
    
-     <button @click="setActiveVault(vault)">{{vault.description}}</button>
-   </div>
+     <button class="btn btn-primary" @click="setActiveVault(vault)">{{vault.name}}</button>
+    </div>
   <vault></vault>
   <keep></keep>
 
@@ -43,7 +39,8 @@ export default {
         //  type:Object,
           Name: '',
           Description: '',
-      }, 
+      },
+      activeKeep: this.$store.state.activeVault 
     }
   },
   components:{
@@ -77,11 +74,14 @@ export default {
     setActiveVault(vault){
     //  debugger
       this.$store.dispatch('setActiveVault', vault)
-      
+
     },
     showKeeps(vault){
-      this.$store.dispatch("getVaultKeeps")
+      this.$store.dispatch('getVaultKeeps')
 
+    },
+    logout(){
+      this.$store.dispatch('logout')
     }
   } 
  

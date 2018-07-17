@@ -26,10 +26,12 @@ namespace API_Users.Controllers
         [HttpGet]
         public IEnumerable<Keep> GetUserKeeps()
         {
-            return _db.GetAll();
+             var user = HttpContext.User;
+             var Id = user.Identity.Name;
+            return _db.GetAllKeepsByPublish(Id);
         }
 
-         // GET api/vault/:id
+         // GET api/keep/vault/:id
         [HttpGet("vault/{id}")]
         public IEnumerable<Keep> Get(int id)
         {
@@ -55,7 +57,7 @@ namespace API_Users.Controllers
          return _db.GetbyAuthorId(Id);
         }
 
-        // POST api/keep/:
+        // POST api/keep
         [HttpPost]
         public Keep CreateKeep([FromBody]Keep newKeep)
         {
@@ -75,12 +77,28 @@ namespace API_Users.Controllers
         {
              return _db.EditKeep(id, value);
         }
-
-        // DELETE api/
-        [HttpDelete]
-        public void Delete([FromBody]Keep value)
+        
+        // PUT api/keep/publish/{id}
+        [HttpPut("publish/{id}")]
+        public Keep PublishKeep(int id, [FromBody]Keep value) // 
         {
-           _db.DeleteKeep(value.Id);
+             return _db.PublishKeep(id, value);
+        }
+
+        //PUT api/keep/view/{id}
+        [HttpPut("view/{id}")]
+        public Keep UpdateKeepViews(int id, [FromBody]Keep value) // 
+        {
+             return _db.UpdateKeepViews(id, value);
+        }
+
+        // DELETE api/keep
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            var user = HttpContext.User;
+            var AuthorId = user.Identity.Name;      
+           _db.DeleteKeep(id, AuthorId);
         }
     }
 }

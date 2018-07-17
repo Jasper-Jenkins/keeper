@@ -1,13 +1,23 @@
 <template>
-  <div class="vault">
-    {{activeVault.name}}
-    {{activeVault.description}}
-    <div v-for="keeps in vaultKeepers" v-bind:key="keeps._id">
-    {{keeps.id}}
-    {{keeps.name}}
-    {{keeps.description}}
-    {{keeps.share}}
-    <button @click="deleteVaultKeep(keeps)">Delete VK</button>
+  <div class="vault container-fluid">
+    
+    <div class="row">
+        <div class="col-12">
+      <p>{{activeVault.name}}</p>
+      <p>{{activeVault.description}}</p>
+    
+    </div>
+        
+        
+        <div class="vaultKeepFormat col-3" v-for="keeps in vaultKeepers" v-bind:key="keeps._id">
+        <img :src="keeps.imageUrl" alt="Fun fun">
+
+        <p>{{keeps.name}}</p> 
+        <p>{{keeps.description}}</p>
+        <p>Shares: {{keeps.share}}</p>
+        <p>Views: {{keeps.view}}</p>
+        <button @click="deleteVaultKeep(keeps)">Delete VK</button>
+        </div>
     </div>
   </div>
 </template>
@@ -34,11 +44,13 @@ export default {
       //   this.$store.dispatch("getVaultKeeps", this.vault.id)
     },
     vaultKeepers() {
-      debugger
-      var keeps = this.$store.state.keeps;
+      
+      var keeps = []; //this.$store.state.keeps;
       var vaultkeeps = this.$store.state.vaultKeeps;
       var returnVK = [];
       if(vaultkeeps.length != 0){
+      
+      keeps = this.$store.state.keeps;  
       for(var i in keeps){
         for(var j in vaultkeeps){
           if(keeps[i].id == vaultkeeps[j].keepId){
@@ -47,21 +59,28 @@ export default {
         }
       }
       return returnVK;
+
   }else{
     return null;
   }
-      
+     //activeVault();
     },
     getVaultKeep() {
-      //    debugger
+      
+     // debugger
       this.$store.dispatch("getVaultKeeps", this.vault.id);
-    }
+    },
+    
+  getKeeps(){
+     this.$store.dispatch('getKeeps')
+  }
   },
   methods:{
     deleteVaultKeep(keep){
-      debugger
+     // debugger
       keep["vaultId"] = this.$store.state.activeVault.id
       this.$store.dispatch('deleteVaultKeep', keep)
+         this.$store.dispatch("getVaultKeeps", this.vault.id);
     }
   }
 };
@@ -69,6 +88,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.vaultKeepFormat{
+  background-color: rgb(100, 170, 120);
+  border-radius: 10%;
+  border: 1px black solid;
+  width: 80%;
+  margin: 0 auto; 
+}
 h1,
 h2 {
   font-weight: normal;

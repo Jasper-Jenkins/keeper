@@ -1,13 +1,28 @@
 <template>
     <!-- <button @click="createVaultKeep(keep)">Add keep</button> -->
-<div class="vaultKeeps">  
-   <select v-model="vault"> 
-       <option disabled value=''>Add Keep to vault: </option>
-       <option v-for="vault in vaults" :key="vault._id" :value="vault">{{vault.name}}</option>
-     </select>
-     <button @click="createVaultKeep(keep)">Add to vault: </button>
+  <div class="container-fluid">  
+      
+    <div class="row vaultKeeps">
+      <div class="col-12">
+       
+        <button class="btn btn-success" v-if="!keep.publish && keep.authorId == user.id" @click="publishKeep(keep)">Make Public</button>
+        <button class="btn btn-warning" v-if="keep.publish && keep.authorId == user.id" @click="publishKeep(keep)">Make Private</button>
+        <button class="btn btn-info" @click="viewKeep(keep)">View</button>
+        <button class="btn btn-danger" v-if="keep.authorId == user.id" @click="deleteKeep(keep)">Delete</button>
+      </div>
+      <div class="col-12">
+        <form>
+        <select v-model="vault" required> 
+          <!-- <option disabled value=''>Add Keep to vault: </option> -->
+          <option v-for="vault in vaults" :key="vault._id" :value="vault">{{vault.name}}</option>
+         
+        </select>
+         <button v-if="vault" class="btn btn-primary" @click="createVaultKeep(keep)">Add to vault: </button>
+        </form>
+      </div>
+    </div>
   </div>
-</template>
+</template> 
 
 <script>
 export default {
@@ -16,14 +31,15 @@ export default {
       keep:{
           type:Object,
           required: true
-      }
+      },
+     // vault: ""
   
   },
   data () {
     return {
     
-    vault:{}
-    }
+   vault: ""
+      }
   },
   mounted() {
    //   this.$store.dispatch('getKeeps')
@@ -35,6 +51,12 @@ export default {
     //   },
       vaults(){
         return this.$store.state.userVaults
+      },
+      user(){
+        return this.$store.state.user
+      },
+      activeVault(){
+          this.$store.dispatch("getVaultKeeps", this.$store.state.activeVault.id);
       }
     //   getKeeps(){
     //       this.$store.dispatch('getKeeps')
@@ -46,11 +68,26 @@ export default {
   },
   methods: {
       createVaultKeep(keep){
-       //   debugger
+       //debugger
+   //    this.$store.dispatch('getKeeps')
           var author = this.$store.state.user.id
         //  keep.AuthorId = author;
           keep.vaultId = this.vault.id
-          this.$store.dispatch("createVaultKeep", keep)
+          this.$store.dispatch('createVaultKeep', keep)
+          // this.$store.dispatch("getVaultKeeps", this.$store.state.activeVault.id);
+      },
+      publishKeep(keep){
+     // debugger
+      keep.publish = !keep.publish
+      this.$store.dispatch('publishKeep', keep)
+
+      },
+      deleteKeep(keep){
+        this.$store.dispatch('deleteKeep', keep)
+        this.$store.dispatch('getKeeps')
+      },
+      viewKeep(keep){
+        this.$store.dispatch('viewKeep', keep)
       }
   }
 
@@ -59,18 +96,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.vaultKeeps {
+  border: 1px solid black;
 }
 </style>

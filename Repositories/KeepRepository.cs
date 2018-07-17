@@ -15,8 +15,8 @@ namespace API_Users.Repositories
     public Keep CreateKeep(Keep newKeep)
     {
       int id = _db.ExecuteScalar<int>(@"
-                INSERT INTO keeps (name, description, authorId, share, view, publish)
-                VALUES (@Name, @Description, @AuthorId, @Share, @View, @Publish);
+                INSERT INTO keeps (name, description, imageUrl, authorId, share, view, publish)
+                VALUES (@Name, @Description, @ImageUrl, @AuthorId, @Share, @View, @Publish);
                 SELECT LAST_INSERT_ID();
             ", newKeep);
       newKeep.Id = id;
@@ -29,9 +29,11 @@ namespace API_Users.Repositories
     //   };
     }
     // GetAll Keep
-    public IEnumerable<Keep> GetAll()
+    public IEnumerable<Keep> GetAllKeepsByPublish(string userId)
     {
-      return _db.Query<Keep>("SELECT * FROM keeps;");
+      return _db.Query<Keep>(@"SELECT * FROM keeps
+      WHERE publish = 1
+      OR authorId = @userId;", new { userId });
     }
     // GetbyAuthor
     public IEnumerable<Keep> GetbyAuthorId(string id)
@@ -66,17 +68,51 @@ namespace API_Users.Repositories
         return newKeep;
       }
       return null;
+    }   
+    public Keep UpdateKeepViews(int id, Keep newKeep)
+    {
+      newKeep.Id = id;
+      var i = _db.Execute(@"
+                UPDATE keeps SET
+                   view = view + 1
+                WHERE id = @Id
+            ", newKeep);
+      if (i > 0)
+      {
+        return newKeep;
+      }
+      return null;
+    }
+     public Keep PublishKeep(int id, Keep newKeep)
+    {
+      newKeep.Id = id;
+      var i = _db.Execute(@"
+                UPDATE keeps SET
+              
+                publish = @Publish
+                WHERE id = @Id
+            ", newKeep);
+      if (i > 0)
+      {
+        return newKeep;
+      }
+      return null;
     }
     // Delete
-    public bool DeleteKeep(int id) //string authorId
+    public bool DeleteKeep(int id, string authorId) //string authorId
     {
       var i = _db.Execute(@"
       DELETE FROM keeps
       WHERE id = @id
+      AND authorId = @authorId
       LIMIT 1;
-      ", new { id });   //AND authorId = @authorId
+      ", new { id, authorId });   //
       if (i > 0)
       {
+         var j = _db.Execute(@"
+        DELETE FROM vaultkeeps
+        WHERE keepId = @id;
+        ", new { id });
         return true;
       }
       return false;

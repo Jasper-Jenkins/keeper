@@ -1,4 +1,6 @@
--- DROP TABLE keeps;
+-- DROP TABLE vaultkeeps;
+    -- DELETE FROM vaults where description = "";
+
 
 -- CREATE TABLE users (
 --     id VARCHAR (255) NOT NULL,
@@ -25,6 +27,7 @@
 --     id int NOT NULL AUTO_INCREMENT,
 --     name VARCHAR(20) NOT NULL,
 --     description VARCHAR(255) NOT NULL,
+--     imageUrl VARCHAR(255) NOT NULL,
 --     authorId VARCHAR(255) NOT NULL,
 --     share int NOT NULL,
 --     view int NOT NULL,

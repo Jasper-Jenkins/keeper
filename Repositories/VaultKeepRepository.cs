@@ -15,7 +15,8 @@ namespace API_Users.Repositories
     {
       var i = _db.Execute(@"
                 UPDATE keeps SET
-                    share = share + 1
+                    share = share + 1,
+                    view = view + 1
                 WHERE id = @keepId;
             ", new {keepId});
       if (i > 0)
@@ -43,12 +44,12 @@ namespace API_Users.Repositories
     //         ", newVaultKeep);
     //   newVaultKeep.Id = id;
     //   return newVaultKeep;
-    // //   {
-    // //       Id = newVaultKeep.Id, 
-    // //       Name = newVaultKeep.Name,
-    // //       Description = newVaultKeep.Description,
-    // //       AuthorId = newVaultKeep.AuthorId
-    // //   };
+    //   {
+    //       Id = newVaultKeep.Id, 
+    //       Name = newVaultKeep.Name,
+    //       Description = newVaultKeep.Description,
+    //       AuthorId = newVaultKeep.AuthorId
+    //   };
     // }
     // GetAll VaultKeep
     public IEnumerable<VaultKeep> GetAll()
@@ -70,22 +71,13 @@ namespace API_Users.Repositories
 
               return check;
     }
-    // public IEnumerable<VaultKeep> GetbyVaultId(int id)
-    // {
-    //   return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps WHERE vaultId = @id;", new { id });
-    // }
-    // GetbyId
+   
     public VaultKeep GetbyVaultKeepId(int id)
     {
       return _db.QueryFirstOrDefault<VaultKeep>("SELECT * FROM vaultkeeps WHERE vaultId = @id;", new { id });
     }
 
-    // public IEnumerable<Keep> GetKeepsforVaultKeepsKeepId(VaultKeep vaultkeep)
-    // {
-    
-    //   return _db.Query<Keep>(@"SELECT * FROM keeps WHERE keepId = @id;", new { id });
-    // }
-
+   
 
     // Edit
     public VaultKeep EditVaultKeep(int id, VaultKeep vaultkeep)
@@ -109,10 +101,10 @@ namespace API_Users.Repositories
       var i = _db.Execute(@"
       DELETE FROM vaultkeeps
       WHERE keepId = @keepId  
-      AND authorId = @authorId
+     
       AND vaultId = @vaultId
       LIMIT 1;
-      ", new { vaultid, keepId, authorId });
+      ", new { vaultid, keepId, authorId }); //take the authorId out later to get it figured out
       if (i > 0)
       {
         return true;

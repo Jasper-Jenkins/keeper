@@ -1,79 +1,86 @@
 <template>
-  <div class="keep">
-    <form v-on:submit.prevent="createKeep(keep)">
-    <input class="input" type="text" name="keepname" placeholder="Name" id="name" v-model="keep.Name">
-    <input class="input" type="text" name="keepdescription" placeholder="Decscription" id="description" v-model="keep.Description">
-    <button class="btn btn-primary btn-danger" type="submit">Create Keep</button>
+  <div class="keeps">
+    <form v-on:submit.prevent="createKeep(newkeep)">
+    <input class="input" type="text" name="keepname" placeholder="Name" id="name" v-model="newkeep.Name">
+    <input class="input" type="text" name="keepdescription" placeholder="Description" id="description" v-model="newkeep.Description">
+    <input class="input" type="text" name="keepimage" placeholder="Image Url" id="image" v-model="newkeep.ImageUrl">
+    <button class="btn btn-primary" type="submit">Create Keep</button>
   </form>
 
 
 
   <div v-for="keep in keeps" v-bind:key="keep._id">
-    {{keep.name}}
-    <!-- <button @click="createVaultKeep(keep)">Add keep</button> -->
- <!-- <select v-model="vault"> 
-       <option disabled value=''>Add Keep to vault: </option>
-       <option v-for="vault in vaults" :key="vault._id" :value="trip">{{vault.name}}</option>
-     </select>
-     <button @click="createVaultKeep(keep)">Add to vault: </button> -->
+    
+    
+    <p>{{keep.name}}</p>
+    <img :src="keep.imageUrl" alt="Images">
+    <!-- <button @click="createVaultKeep(keep)">Add keep</button>
+     <select v-model="vault">  
+      <option disabled value=''>Add Keep to vault: </option>
+      <option v-for="vault in vaults" :key="vault._id" :value="trip">{{vault.name}}</option>
+    </select>
+    <button @click="createVaultKeep(keep)">Add to vault: </button> 
+ -->
 
-
-     <vaultkeep :keep="keep"></vaultkeep> 
-    </div>
+    <vaultkeep :keep="keep"></vaultkeep> 
+    
+  
+  </div>
   </div>
 </template>
 
 <script>
-import vaultkeep from './VaultKeep'
+import vaultkeep from "./VaultKeep";
 export default {
-  name: 'Keep',
-  data () {
+  name: "Keep",
+  data() {
     return {
-    keep:{
+      newkeep: {
         Name: "",
         Description: "",
-
-    },
-    vault:{}
-    }
+        ImageUrl: ""
+      },
+      vault: {}
+    };
   },
-  components:{
-      vaultkeep
+  components: {
+    vaultkeep
   },
   mounted() {
-      this.$store.dispatch('getKeeps')
+    this.$store.dispatch("getKeeps");
   },
-  computed:{
-      keeps(){
-      //  debugger     
-       return this.$store.state.keeps
-      },
-      vaults(){
-        return this.$store.state.userVaults
-      }
+  computed: {
+    keeps() {
+      //  debugger
+      // this.$store.dispatch('getKeeps')
+      return this.$store.state.keeps;
+    },
+    vaults() {
+      return this.$store.state.userVaults;
+    }
     //   getKeeps(){
     //       this.$store.dispatch('getKeeps')
     //   }
     //   vaultkeeps(){
     //     return this.$store.state
     //   }
-       
   },
   methods: {
-      createKeep(keep){
-        //  debugger
-          var author = this.$store.state.user.id
-          keep.AuthorId = author;
-          this.$store.dispatch("createKeep", keep)
-      }
+    createKeep(keep) {
+      //     debugger
+      var author = this.$store.state.user.id;
+      keep.AuthorId = author;
+      this.$store.dispatch("createKeep", keep);
+      this.$store.dispatch("getKeeps");
+    }
   }
-
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 ul {
