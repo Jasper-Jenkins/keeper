@@ -62,9 +62,9 @@ namespace API_Users.Repositories
       return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps WHERE authorId = @id;", new { id });
     }
 
- public IEnumerable<VaultKeep> GetbyVaultId(int id)
+ public IEnumerable<Keep> GetKeepbyVaultId(int id) 
     {
-      var check = _db.Query<VaultKeep>(@"SELECT * FROM vaultkeeps
+      var check = _db.Query<Keep>(@"SELECT * FROM vaultkeeps
               INNER JOIN keeps ON keeps.id = vaultkeeps.keepId 
               WHERE vaultkeeps.vaultId = @id;
               ", new { id });
@@ -72,6 +72,15 @@ namespace API_Users.Repositories
               return check;
     }
    
+//  public IEnumerable<VaultKeep> GetbyVaultId(int id)
+//     {
+//       var check = _db.Query<Keep>(@"SELECT * FROM vaultkeeps
+//               INNER JOIN keeps ON keeps.id = vaultkeeps.keepId 
+//               WHERE vaultkeeps.vaultId = @id;
+//               ", new { id });
+
+//               return check;
+//     }
     public VaultKeep GetbyVaultKeepId(int id)
     {
       return _db.QueryFirstOrDefault<VaultKeep>("SELECT * FROM vaultkeeps WHERE vaultId = @id;", new { id });
@@ -101,7 +110,6 @@ namespace API_Users.Repositories
       var i = _db.Execute(@"
       DELETE FROM vaultkeeps
       WHERE keepId = @keepId  
-     
       AND vaultId = @vaultId
       LIMIT 1;
       ", new { vaultid, keepId, authorId }); //take the authorId out later to get it figured out
@@ -112,6 +120,20 @@ namespace API_Users.Repositories
       return false;
     }
 
+
+    public bool DeleteVaultKeepsByVault(int vaultId, string authorId){
+   var i = _db.Execute(@"
+      DELETE FROM vaultkeeps
+      WHERE authorId = @authorId  
+      AND vaultId = @vaultId
+      LIMIT 1;
+      ", new { vaultId, authorId }); //take the authorId out later to get it figured out
+      if (i > 0)
+      {
+        return true;
+      }
+      return false;
+    }   
     // Add get user favs to user
   }
 

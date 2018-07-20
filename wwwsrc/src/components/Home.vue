@@ -1,25 +1,43 @@
 <template>
   <div class="home container-fluid">
-    <p>Welcome to the home page {{user.username}}</p><button @click="logout">Logout</button>
-    <div>
-      <form v-on:submit.prevent="addVault">
-          <input class="input" type="text" name="name" placeholder="Vault-Name" id="vaultName" v-model="vault.Name">
-          <input class="input" type="text" name="description" placeholder="Description" id="vaultDescription" v-model="vault.Description">
-          <button class="btn btn-primary btn-danger" type="submit">Add new Vault</button>
-      </form>
+ <div class="row">
+   <div class="col-12">
+      <compass></compass>
     </div>
-    <div v-for="vault in vaults" v-bind:key="vault._id">
-     <!-- <a @click="showKeeps(vault)"> 
-       
-      <router-link @click.native="setActiveVault(vault)" :to="{name: 'Vault', params: {id: vault._id}}" :key="vault._id">
-        {{vault.description}}
-      </router-link>
-     </a> -->
-   
-     <button class="btn btn-primary" @click="setActiveVault(vault)">{{vault.name}}</button>
+  </div>
+    <div class="row">
+      <div class="col-12">
+      <p>Welcome to the home page {{user.username}}</p>
+ 
+      
+      
+      <!-- <button @click="logout">Logout</button>
+      <router-link :to="{name: 'Keep' }">
+          <button class="btn btn-primary">Keeps</button>
+      </router-link> -->
+        <form v-on:submit.prevent="addVault">
+            <input class="input" type="text" name="name" placeholder="Vault-Name" id="vaultName" v-model="vault.Name">
+            <input class="input" type="text" name="description" placeholder="Description" id="vaultDescription" v-model="vault.Description">
+            <button class="btn btn-primary btn-danger" type="submit">Add new Vault</button>
+        </form>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-12">
+        <h4>Choose a vault you would like to look inside of.</h4>
+      </div>
+      <div class="col-2" v-for="vault in vaults" v-bind:key="vault._id">
+      <!-- <a @click="showKeeps(vault)"> 
+        <router-link @click.native="setActiveVault(vault)" :to="{name: 'Vault', params: {id: vault._id}}" :key="vault._id">
+          {{vault.description}}
+        </router-link>
+      </a> -->
+    
+      <button class="btn btn-primary" @click="setActiveVault(vault)">{{vault.name}}</button>
+      </div>
     </div>
   <vault></vault>
-  <keep></keep>
+  <!-- <keep></keep> -->
 
   </div>
 </template>
@@ -27,7 +45,8 @@
 <script>
 import router from "../router"
 import vault from "./Vault"
-import keep from "./Keep"
+import compass from "./Compass"
+// import keep from "./Keep"
 export default {
   name: 'Home',
   data () {
@@ -40,12 +59,13 @@ export default {
           Name: '',
           Description: '',
       },
-      activeKeep: this.$store.state.activeVault 
+  //    activeKeep: this.$store.state.activeVault 
     }
   },
   components:{
     vault,
-    keep
+    compass
+  //  keep
   },
   mounted() {
   
@@ -58,13 +78,14 @@ export default {
     }
    // debugger
     this.$store.dispatch("getUserVaults")
-   // this.$store.dispatch('getKeeps')
-
+    this.$store.dispatch('getKeeps')
+    // this.$store.dispatch('getVaultKeeps')
   }, 
   computed: {
     vaults(){
       return this.$store.state.userVaults
     }
+
   },
   methods: {
 
@@ -80,6 +101,7 @@ export default {
       this.$store.dispatch('getVaultKeeps')
 
     },
+   
     logout(){
       this.$store.dispatch('logout')
     }
@@ -91,18 +113,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.home {
+  background-color:aquamarine;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>

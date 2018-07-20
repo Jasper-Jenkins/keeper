@@ -38,9 +38,9 @@ namespace API_Users.Controllers
 
         // /api/vaultkeep/:id
         [HttpGet("{id}")]
-        public IEnumerable<VaultKeep> Get(int id)
+        public IEnumerable<Keep> Get(int id)
         {
-           return _db.GetbyVaultId(id);
+           return _db.GetKeepbyVaultId(id);
         }
         // /api/vaultkeep
         [HttpGet]
@@ -66,7 +66,7 @@ namespace API_Users.Controllers
         public VaultKeep CreateVaultKeep(int keepId, [FromBody]VaultKeep newVaultKeep)
         {
             var user = HttpContext.User;
-          //  newVaultKeep.AuthorId = user.Identity.Name;
+            newVaultKeep.AuthorId = user.Identity.Name;
             newVaultKeep.KeepId = keepId;
            
             if (ModelState.IsValid)
@@ -90,5 +90,12 @@ namespace API_Users.Controllers
             var user = HttpContext.User.Identity.Name;
            _db.DeleteVaultKeep(vaultId, keepId, user);
         }
-    }
+
+        //DELETE api/vaultkeep/delete/vault/{vaultId}
+        [HttpDelete("delete/vault/{vaultId}")]
+        public void DeleteVaultKeepsByVault(int vaultId)
+        {
+            var author = HttpContext.User.Identity.Name;
+           _db.DeleteVaultKeepsByVault(vaultId, author);
+        }    }
 }

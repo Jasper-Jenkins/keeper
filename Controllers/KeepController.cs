@@ -72,11 +72,11 @@ namespace API_Users.Controllers
         }
 
      //   PUT api/user/5
-        [HttpPut("user/{id}")]
-        public Keep Put(int id, [FromBody]Keep value) // 
-        {
-             return _db.EditKeep(id, value);
-        }
+        // [HttpPut("user/{id}")]
+        // public Keep Put(int id, [FromBody]Keep value) // 
+        // {
+        //      return _db.EditKeep(id, value);
+        // }
         
         // PUT api/keep/publish/{id}
         [HttpPut("publish/{id}")]

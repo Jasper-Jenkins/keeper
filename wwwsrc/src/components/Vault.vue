@@ -2,14 +2,14 @@
   <div class="vault container-fluid">
     
     <div class="row">
-        <div class="col-12">
+      <div class="col-12">
+      <button v-if="activeVault.id" class="btn btn-danger" @click="deleteVault(activeVault)">Delete Vault</button>
       <p>{{activeVault.name}}</p>
       <p>{{activeVault.description}}</p>
-    
     </div>
         
         
-        <div class="vaultKeepFormat col-3" v-for="keeps in vaultKeepers" v-bind:key="keeps._id">
+        <div class="vaultKeepFormat col-4" v-for="keeps in vaultKeepers" v-bind:key="keeps._id">
         <img :src="keeps.imageUrl" alt="Fun fun">
 
         <p>{{keeps.name}}</p> 
@@ -33,42 +33,40 @@ export default {
     };
   },
   mounted() {
-    //     debugger
-    //    this.$store.dispatch("getVaultKeeps", this.vault.id)
   },
   computed: {
+    // deleteVault(vault){
+    //   this.$store.dispatch('deleteVault', vault)
+    // },
     activeVault() {
-      //  debugger
       this.$store.dispatch("getVaultKeeps", this.$store.state.activeVault.id);
       return this.$store.state.activeVault;
-      //   this.$store.dispatch("getVaultKeeps", this.vault.id)
     },
     vaultKeepers() {
-      
-      var keeps = []; //this.$store.state.keeps;
+      var keeps = []; 
       var vaultkeeps = this.$store.state.vaultKeeps;
-      var returnVK = [];
-      if(vaultkeeps.length != 0){
-      
-      keeps = this.$store.state.keeps;  
-      for(var i in keeps){
-        for(var j in vaultkeeps){
-          if(keeps[i].id == vaultkeeps[j].keepId){
-            returnVK.push(keeps[i])
-          }
-        }
-      }
-      return returnVK;
+      return vaultkeeps;
+      // var returnVK = [];
+  //     if(vaultkeeps.length != 0){
+  //     keeps = this.$store.state.keeps;  
+  //     for(var i in keeps){
+  //       for(var j in vaultkeeps){
+  //         if(keeps[i].id == vaultkeeps[j].keepId){
+  //           returnVK.push(keeps[i])
+  //         }
+  //       }
+  //     }
+  //     return returnVK;
 
-  }else{
-    return null;
-  }
+  // }else{
+  //   return null;
+  // }
      //activeVault();
-    },
-    getVaultKeep() {
+    // },
+    // getVaultKeep() {
       
      // debugger
-      this.$store.dispatch("getVaultKeeps", this.vault.id);
+      //this.$store.dispatch("getVaultKeeps", this.vault.id);
     },
     
   getKeeps(){
@@ -80,7 +78,11 @@ export default {
      // debugger
       keep["vaultId"] = this.$store.state.activeVault.id
       this.$store.dispatch('deleteVaultKeep', keep)
-         this.$store.dispatch("getVaultKeeps", this.vault.id);
+     
+    }, 
+    deleteVault(vault){
+      this.$store.dispatch('deleteVault',vault)
+      
     }
   }
 };

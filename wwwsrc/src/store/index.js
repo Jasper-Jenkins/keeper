@@ -159,13 +159,26 @@ export default new vuex.Store({
         })
     },
     createUserVault({ commit, dispatch }, vault) {
-      server.post('api/vault', vault)
+      server.post('/api/vault', vault)
         .then(res => {
           commit('addVault', res.data)
         })
     },
     setActiveVault({ commit, dispatch }, vault) {
       commit('setActiveVault', vault)
+    },
+    deleteVault({commit, dispatch, state}, deletevault){
+    //  debugger
+      var temp = deletevault
+      server.delete('/api/vault/delete/'+deletevault.id + "/author/" + deletevault.authorId)
+      .then(res=>{
+        dispatch('deleteVaultKeepsByVault', temp)
+        router.push({name: "Home"})
+        state.activeVault = {}
+        console.log(res)
+      }).catch(res=>{
+        console.log(res)
+      })
     },
 
     getUserVaults({ commit, dispatch }) {
@@ -215,10 +228,10 @@ export default new vuex.Store({
     // has it in their vault. The aoociated table entry stays and cant be deleted or viewed by user. 
     // Needd to create a table with 
     createVaultKeep({ commit, dispatch }, vaultKeep) {
-    // debugger
+  //  debugger
       server.post('/api/vaultkeep/' + vaultKeep.id, vaultKeep)
         .then(res => {
-          //debugger
+     //     debugger
           commit('addVaultKeep', res.data)
 
         })
@@ -227,10 +240,10 @@ export default new vuex.Store({
         })
     },
     getVaultKeeps({ commit, dispatch }, vaultId) {
-      // debugger
+      //  debugger
       server.get('/api/vaultkeep/' + vaultId)
         .then(res => {
-          //   debugger
+            //  debugger
           //  dispatch('setVaultKeeps', res)
           commit('setVaultKeeps', res.data)
         })
@@ -246,12 +259,20 @@ export default new vuex.Store({
           console.log(res)
         })
     },
+    deleteVaultKeepsByVault({commit, dispatch}, vault){
+   //   debugger
+      server.delete('/api/vaultkeep/delete/vault/'+vault.id)
+      .then(res=>{
+        console.log(res)
+      })
+    },
     deleteVaultKeep({ commit, dispatch }, vaultkeep) {
-      //  debugger
+   //   debugger
       server.delete('/api/vaultkeep/delete/' + vaultkeep.vaultId + '/' + vaultkeep.id)
         .then(res => {
           //  debugger
-          commit("removeVaultKeep", vaultkeep.id)
+          // commit("removeVaultKeep", vaultkeep.id)
+          dispatch("getVaultKeeps", vaultkeep.vaultId)
         })
         .catch(res => { console.log(res) })
     },

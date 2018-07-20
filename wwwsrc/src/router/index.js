@@ -8,6 +8,10 @@ import Home from '@/components/Home'
 import Vault from '@/components/Vault'
 // @ts-ignore
 import ActiveKeep from '@/components/ActiveKeep'
+// @ts-ignore
+import Keep from '@/components/Keep'
+// @ts-ignore
+import Compass from '@/components/Compass'
 Vue.use(Router)
 
 export default new Router({
@@ -31,7 +35,17 @@ export default new Router({
       path: '/activekeep',
       name: 'ActiveKeep',
       component: ActiveKeep
-    }
+    },
+    {
+      path: '/keep',
+      name: 'Keep',
+      component: Keep
+    },
+    {
+      path: '/compass',
+      name: 'Compass',
+      component: Compass
+    },
 
 
 

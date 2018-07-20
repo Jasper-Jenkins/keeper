@@ -1,18 +1,23 @@
 <template>
-  <div class="activeKeep">
-    {{keep.name}}
-    {{keep.description}}
-    {{keep.view}}
-    {{keep.share}}
+  <div class="activeKeep bgFormat">
+    <compass></compass>
+    <img :src="keep.imageUrl" alt="Fun fun">
+    <p>{{keep.name}}</p> 
+    <p>{{keep.description}}</p>
+    <p>Shares: {{keep.share}}</p>
+    <p>Views: {{keep.view}}</p>
   </div>
 </template>
 
 <script>
-//import vaultkeep from './VaultKeep'
+import compass from './Compass'
 export default {
   name: 'ActiveKeep',
   data () {
     return {}
+  },
+  components: {
+    compass
   },
 //   mounted() {
 //       this.$store.dispatch('getKeeps')
@@ -21,15 +26,19 @@ export default {
       keep(){
        return this.$store.state.activeKeep
       }
- },
+  },
   methods: {}
   
 
-}
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.bgFormat {
+  background-color:aquamarine;
+}
 h1, h2 {
   font-weight: normal;
 }

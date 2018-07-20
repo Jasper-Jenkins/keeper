@@ -66,17 +66,17 @@ namespace API_Users.Controllers
         }
 
      //   PUT api/user/5
-        [HttpPut("user/{id}")]
-        public Vault Put(int id, [FromBody]Vault value) // 
-        {
-             return _db.EditVault(id, value);
-        }
+        // [HttpPut("user/{id}")]
+        // public Vault Put(int id, [FromBody]Vault value) // 
+        // {
+        //      return _db.EditVault(id, value);
+        // }
 
-        // DELETE api/
-        [HttpDelete]
-        public void Delete([FromBody]Vault value)
+        // DELETE api/vault/
+        [HttpDelete("delete/{id}/author/{authorId}")]
+        public void Delete(int id, string authorId)
         {
-           _db.DeleteVault(value.Id);
+           _db.DeleteVault(id, authorId);
         }
     }
 }

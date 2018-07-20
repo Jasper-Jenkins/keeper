@@ -1,5 +1,7 @@
--- DROP TABLE vaultkeeps;
-    -- DELETE FROM vaults where description = "";
+-- DROP TABLE users;
+-- DROP TABLE keeps;
+-- DROP TABLE vaults;
+    -- DELETE FROM vaults where description = "Cool ass house";
 
 
 -- CREATE TABLE users (

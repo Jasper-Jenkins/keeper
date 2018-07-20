@@ -55,20 +55,20 @@ namespace API_Users.Repositories
       return _db.QueryFirstOrDefault<Keep>("SELECT * FROM keeps WHERE id = @id;", new { id });
     }
     // Edit
-    public Keep EditKeep(int id, Keep newKeep)
-    {
-      newKeep.Id = id;
-      var i = _db.Execute(@"
-                UPDATE keeps SET
-                   views = views + 1
-                WHERE id = @Id
-            ", newKeep);
-      if (i > 0)
-      {
-        return newKeep;
-      }
-      return null;
-    }   
+    // public Keep EditKeep(int id, Keep newKeep)
+    // {
+    //   newKeep.Id = id;
+    //   var i = _db.Execute(@"
+    //             UPDATE keeps SET
+    //                views = views + 1
+    //             WHERE id = @Id
+    //         ", newKeep);
+    //   if (i > 0)
+    //   {
+    //     return newKeep;
+    //   }
+    //   return null;
+    // }   
     public Keep UpdateKeepViews(int id, Keep newKeep)
     {
       newKeep.Id = id;

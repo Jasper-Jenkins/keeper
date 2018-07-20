@@ -11,6 +11,7 @@
         <button class="btn btn-danger" v-if="keep.authorId == user.id" @click="deleteKeep(keep)">Delete</button>
       </div>
       <div class="col-12">
+        <p>Choose a vault</p>
         <form>
         <select v-model="vault" required> 
           <!-- <option disabled value=''>Add Keep to vault: </option> -->
@@ -68,11 +69,13 @@ export default {
   },
   methods: {
       createVaultKeep(keep){
-       //debugger
+ 
    //    this.$store.dispatch('getKeeps')
           var author = this.$store.state.user.id
         //  keep.AuthorId = author;
-          keep.vaultId = this.vault.id
+ 
+       debugger
+ keep["vaultId"] = this.vault.id
           this.$store.dispatch('createVaultKeep', keep)
           // this.$store.dispatch("getVaultKeeps", this.$store.state.activeVault.id);
       },
