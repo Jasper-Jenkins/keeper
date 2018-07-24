@@ -1,28 +1,26 @@
 <template>
     <!-- <button @click="createVaultKeep(keep)">Add keep</button> -->
-  <div class="container-fluid">  
+  
       
     <div class="row vaultKeeps">
       <div class="col-12">
-       
         <button class="btn btn-success" v-if="!keep.publish && keep.authorId == user.id" @click="publishKeep(keep)">Make Public</button>
-        <button class="btn btn-warning" v-if="keep.publish && keep.authorId == user.id" @click="publishKeep(keep)">Make Private</button>
+         <!-- <button class="btn btn-warning" v-if="keep.publish && keep.authorId == user.id" @click="publishKeep(keep)">Make Private</button> -->
         <button class="btn btn-info" @click="viewKeep(keep)">View</button>
         <button class="btn btn-danger" v-if="keep.authorId == user.id" @click="deleteKeep(keep)">Delete</button>
       </div>
       <div class="col-12">
         <p>Choose a vault</p>
-        <form>
-        <select v-model="vault" required> 
-          <!-- <option disabled value=''>Add Keep to vault: </option> -->
-          <option v-for="vault in vaults" :key="vault._id" :value="vault">{{vault.name}}</option>
-         
-        </select>
-         <button v-if="vault" class="btn btn-primary" @click="createVaultKeep(keep)">Add to vault: </button>
+          <form>
+            <select v-model="vault" required> 
+              <option disabled value=''>Vault</option>
+              <option v-for="vault in vaults" :key="vault._id" :value="vault">{{vault.name}}</option>
+            </select>
+          <button v-if="vault" class="btn btn-primary" @click="createVaultKeep(keep)">To the Vault</button>
         </form>
       </div>
     </div>
-  </div>
+
 </template> 
 
 <script>
@@ -70,14 +68,13 @@ export default {
   methods: {
       createVaultKeep(keep){
  
-   //    this.$store.dispatch('getKeeps')
-          var author = this.$store.state.user.id
-        //  keep.AuthorId = author;
- 
-       debugger
- keep["vaultId"] = this.vault.id
-          this.$store.dispatch('createVaultKeep', keep)
-          // this.$store.dispatch("getVaultKeeps", this.$store.state.activeVault.id);
+      // this.$store.dispatch('getKeeps')
+      var author = this.$store.state.user.id
+      //  keep.AuthorId = author;
+      debugger
+       keep["vaultId"] = this.vault.id
+      this.$store.dispatch('createVaultKeep', keep)
+      // this.$store.dispatch("getVaultKeeps", this.$store.state.activeVault.id);
       },
       publishKeep(keep){
      // debugger
@@ -101,5 +98,6 @@ export default {
 <style scoped>
 .vaultKeeps {
   border: 1px solid black;
+
 }
 </style>

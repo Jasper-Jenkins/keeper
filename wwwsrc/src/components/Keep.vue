@@ -1,22 +1,81 @@
 <template>
-  <div class="keeps bgFormat">
-     <div>
-    <compass></compass>
+  <div class="keeps container-fluid bgFormat">
+    <div class="row">
+      <div class="col-12">
+        <compass></compass>
+      </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-12">
+<form>
+  <div class="form-row">
+    <!-- <div class="form-group col-md-6">
+      <label for="inputEmail4">Email</label>
+      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+    </div> -->
+    <!-- <div class="form-group col-md-6">
+      <label for="inputPassword4">Password</label>
+      <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+    </div>-->
+  </div> 
+  <div class="form-group">
+    <label for="inputAddress">Address</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Address 2</label>
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">City</label>
+      <input type="text" class="form-control" id="inputCity">
     </div>
-    <form v-on:submit.prevent="createKeep(newkeep)">
-    <input class="input" type="text" name="keepname" placeholder="Name" id="name" v-model="newkeep.Name">
-    <input class="input" type="text" name="keepdescription" placeholder="Description" id="description" v-model="newkeep.Description">
-    <input class="input" type="text" name="keepimage" placeholder="Image Url" id="image" v-model="newkeep.ImageUrl">
-    <button class="btn btn-primary" type="submit">Create Keep</button>
-  </form>
+    <div class="form-group col-md-4">
+      <label for="inputState">State</label>
+      <select id="inputState" class="form-control">
+        <option selected>Choose...</option>
+        <option>...</option>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputZip">Zip</label>
+      <input type="text" class="form-control" id="inputZip">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Check me out
+      </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Sign in</button>
+</form>
 
-  <!--Create keep needs to create a keep and a vault keep  --> 
 
-  <div v-for="keep in keeps" v-bind:key="keep._id">
-    
-    
-    <p>{{keep.name}}</p>
-    <img :src="keep.imageUrl" alt="Images">
+
+
+
+      <form class="align-content-center" v-on:submit.prevent="createKeep(newkeep)">
+        
+        <input class="input" type="text" name="keepname" placeholder="Name" id="name" v-model="newkeep.Name">
+        <input class="input" type="text" name="keepdescription" placeholder="Description" id="description" v-model="newkeep.Description">
+        <input class="input" type="text" name="keepimage" placeholder="Image Url" id="image" v-model="newkeep.ImageUrl">
+        <button class="btn btn-primary" type="submit">Create Keep</button>
+      </form>
+    </div>
+
+  <div class="col-lg-3 col-md-4 col-sm-10" v-for="keep in keeps" v-bind:key="keep._id">
+    <!-- <p>{{keep.name}}</p> -->
+    <p class="alert alert-success" role="alert">{{keep.name}}</p> 
+    <p>{{keep.description}}</p>
+    <img class="img-fluid" :src="keep.imageUrl" alt="Images">
+    <div>
+      <span>Shares {{keep.share}}</span>
+      <span>Views: {{keep.view}}</span>
+    </div>
     <!-- 
       <button @click="createVaultKeep(keep)">Add keep</button>
       <select v-model="vault">  
@@ -25,10 +84,9 @@
       </select>
       <button @click="createVaultKeep(keep)">Add to vault: </button> 
     -->
-
-    <vaultkeep :keep="keep"></vaultkeep> 
-    
-  
+    <vaultkeep :keep="keep"></vaultkeep>
+   
+  </div>
   </div>
   </div>
 </template>

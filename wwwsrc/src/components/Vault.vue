@@ -1,7 +1,6 @@
 <template>
-  <div class="vault container-fluid">
     
-    <div class="row">
+    <div class="vault row">
       <div class="col-12">
       <button v-if="activeVault.id" class="btn btn-danger" @click="deleteVault(activeVault)">Delete Vault</button>
       <p>{{activeVault.name}}</p>
@@ -10,7 +9,7 @@
         
         
         <div class="vaultKeepFormat col-4" v-for="keeps in vaultKeepers" v-bind:key="keeps._id">
-        <img :src="keeps.imageUrl" alt="Fun fun">
+        <img class="img-fluid" :src="keeps.imageUrl" alt="Fun fun">
 
         <p>{{keeps.name}}</p> 
         <p>{{keeps.description}}</p>
@@ -19,10 +18,11 @@
         <button @click="deleteVaultKeep(keeps)">Delete VK</button>
         </div>
     </div>
-  </div>
+  
 </template>
 
 <script>
+// import 
 export default {
   name: "Vault",
   data() {

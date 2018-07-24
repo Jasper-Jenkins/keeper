@@ -1,10 +1,7 @@
 <template>
   <div class="home container-fluid">
- <div class="row">
-   <div class="col-12">
+
       <compass></compass>
-    </div>
-  </div>
     <div class="row">
       <div class="col-12">
       <p>Welcome to the home page {{user.username}}</p>
@@ -24,7 +21,7 @@
     </div>
     <div class="row d-flex justify-content-center">
       <div class="col-12">
-        <h4>Choose a vault you would like to look inside of.</h4>
+        <h5>Choose a vault you would like to look inside of.</h5>
       </div>
       <div class="col-2" v-for="vault in vaults" v-bind:key="vault._id">
       <!-- <a @click="showKeeps(vault)"> 
