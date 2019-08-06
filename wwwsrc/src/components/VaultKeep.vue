@@ -2,11 +2,12 @@
     <!-- <button @click="createVaultKeep(keep)">Add keep</button> -->
   
       
-    <div class="row vaultKeeps">
+    <div class="row vkButtons">
       <div class="col-12">
         <button class="btn btn-success" v-if="!keep.publish && keep.authorId == user.id" @click="publishKeep(keep)">Make Public</button>
-         <!-- <button class="btn btn-warning" v-if="keep.publish && keep.authorId == user.id" @click="publishKeep(keep)">Make Private</button> -->
-        <button class="btn btn-info" @click="viewKeep(keep)">View</button>
+        <button class="btn btn-warning" v-if="keep.publish && keep.authorId == user.id" @click="publishKeep(keep)">Make Private</button>
+        <!-- <button class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">View</button>  -->
+        <button class="btn btn-primary" @click="viewKeep(keep)">View</button>
         <button class="btn btn-danger" v-if="keep.authorId == user.id" @click="deleteKeep(keep)">Delete</button>
       </div>
       <div class="col-12">
@@ -16,9 +17,28 @@
               <option disabled value=''>Vault</option>
               <option v-for="vault in vaults" :key="vault._id" :value="vault">{{vault.name}}</option>
             </select>
-          <button v-if="vault" class="btn btn-primary" @click="createVaultKeep(keep)">To the Vault</button>
-        </form>
+            <button v-if="vault" class="btn btn-primary" @click="createVaultKeep(keep)">To the Vault</button>
+          </form>
       </div>
+      <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
     </div>
 
 </template> 
@@ -99,5 +119,8 @@ export default {
 .vaultKeeps {
   border: 1px solid black;
 
+}
+.vkButtons {
+  text-align:center;
 }
 </style>

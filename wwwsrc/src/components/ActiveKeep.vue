@@ -68,7 +68,7 @@ export default {
       var author = this.$store.state.user.id
       //  keep.AuthorId = author;
       debugger
-       keep["vaultId"] = this.vault.id
+      keep["vaultId"] = this.vault.id
       this.$store.dispatch('createVaultKeep', keep)
       // this.$store.dispatch("getVaultKeeps", this.$store.state.activeVault.id);
       },
@@ -80,7 +80,7 @@ export default {
       },
       deleteKeep(keep){
         this.$store.dispatch('deleteKeep', keep)
-        this.$store.dispatch('getKeeps')
+      //  this.$store.dispatch('getKeeps')
       },
 
   }
@@ -95,18 +95,5 @@ export default {
 .bgFormat {
   background-color:aquamarine;
 }
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>

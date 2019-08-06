@@ -7,7 +7,7 @@ import router from '../router'
 //var baseUrl = production ? 'https://i-be-trippin.herokuapp.com' : 'http://localhost:5000';
 vue.use(vuex)
 
-var baseUrl = "//localhost:5000";
+var baseUrl = "http://localhost:5000";
 //var baseUrl = "https://keeper-1.herokuapp.com"
 // Google places API Key: AIzaSyA2l-r77x24uatF20-TRoAEceNL_fRKjcg
 
@@ -16,7 +16,11 @@ var server = axios.create({
   timeout: 3000,
   withCredentials: true
 })
-
+// var dnd = axios.create({
+//   baseURL: "http://dnd5eapi.co/api/",
+//   timeout:3000,
+//   withCredentials:true
+// })
 export default new vuex.Store({
   state: {
     user: {},
@@ -114,6 +118,7 @@ export default new vuex.Store({
   },
   actions: {
     login({ dispatch, commit }, payload) {
+     debugger
       server.post('/account/login/', payload)
         .then(res => {
           commit('setUser', res.data)
@@ -138,9 +143,10 @@ export default new vuex.Store({
         })
     },
     authenticate({ commit, dispatch }, bool) {
+     
       server.get('/account/authenticate')
         .then(res => {
-          //    debugger 
+           
           commit('setUser', res.data)
           router.push({name: 'Home'})
         })
@@ -149,7 +155,9 @@ export default new vuex.Store({
         })
     },
     signOut({ commit, dispatch, state }) {
+      
       server.delete('/logout')
+      
         .then(res => {
           commit('setUser', {})
           router.push({ name: 'Login' })

@@ -1,9 +1,9 @@
 <template>
-  <div class="user jumbotron jumbotron-fluid bgImg">
-    <div class="row justify-content-center">
-    <div class="col-6 card">
-    <div class="login" v-if="showLogin">
-      <h1>Login</h1>
+  <div class="contariner-fluid justify-content-center">
+    <div class="row"> 
+    <div class="col-6 card login">
+    <div class="" v-if="showLogin">
+      <h1>Login</h1> 
       <form v-on:submit.prevent="login" class="form">
         <input class="input" type="email" name="email" placeholder=" e-mail" id="email" v-model="user.Email">
         <input class="input" type="password" name="password" placeholder=" password" id="name" v-model="user.Password">
@@ -85,4 +85,9 @@
   }
 </script>
 <style scoped>
+.login{
+  text-align:center;
+  border: 1px black solid;
+  margin: 0 auto;
+}
 </style>

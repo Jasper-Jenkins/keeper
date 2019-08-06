@@ -1,94 +1,38 @@
 <template>
-  <div class="keeps container-fluid bgFormat">
-    <div class="row">
-      <div class="col-12">
-        <compass></compass>
-      </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="col-12">
-<form>
-  <div class="form-row">
-    <!-- <div class="form-group col-md-6">
-      <label for="inputEmail4">Email</label>
-      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-    </div> -->
-    <!-- <div class="form-group col-md-6">
-      <label for="inputPassword4">Password</label>
-      <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-    </div>-->
-  </div> 
-  <div class="form-group">
-    <label for="inputAddress">Address</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-  </div>
-  <div class="form-group">
-    <label for="inputAddress2">Address 2</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputCity">City</label>
-      <input type="text" class="form-control" id="inputCity">
-    </div>
-    <div class="form-group col-md-4">
-      <label for="inputState">State</label>
-      <select id="inputState" class="form-control">
-        <option selected>Choose...</option>
-        <option>...</option>
-      </select>
-    </div>
-    <div class="form-group col-md-2">
-      <label for="inputZip">Zip</label>
-      <input type="text" class="form-control" id="inputZip">
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        Check me out
-      </label>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
-
-
-
-
-
-      <form class="align-content-center" v-on:submit.prevent="createKeep(newkeep)">
-        
-        <input class="input" type="text" name="keepname" placeholder="Name" id="name" v-model="newkeep.Name">
-        <input class="input" type="text" name="keepdescription" placeholder="Description" id="description" v-model="newkeep.Description">
-        <input class="input" type="text" name="keepimage" placeholder="Image Url" id="image" v-model="newkeep.ImageUrl">
-        <button class="btn btn-primary" type="submit">Create Keep</button>
-      </form>
-    </div>
-
-  <div class="col-lg-3 col-md-4 col-sm-10" v-for="keep in keeps" v-bind:key="keep._id">
-    <!-- <p>{{keep.name}}</p> -->
-    <p class="alert alert-success" role="alert">{{keep.name}}</p> 
-    <p>{{keep.description}}</p>
-    <img class="img-fluid" :src="keep.imageUrl" alt="Images">
-    <div>
-      <span>Shares {{keep.share}}</span>
-      <span>Views: {{keep.view}}</span>
-    </div>
-    <!-- 
-      <button @click="createVaultKeep(keep)">Add keep</button>
-      <select v-model="vault">  
-        <option disabled value=''>Add Keep to vault: </option>
-        <option v-for="vault in vaults" :key="vault._id" :value="trip">{{vault.name}}</option>
-      </select>
-      <button @click="createVaultKeep(keep)">Add to vault: </button> 
-    -->
-    <vaultkeep :keep="keep"></vaultkeep>
+  <div class="container-fluid bgFormat">
    
+        <compass></compass>
+
+  <div class="row createKeepFormat justify-content-center">
+    <form class="col-4-lg col-4-md col-8-sm cKForm" v-on:submit.prevent="createKeep(newkeep)">
+      <div class="form-group">
+        <input class="input form-control" type="text" name="keepname" placeholder="Name" id="name" v-model="newkeep.Name">
+      </div>
+      <div class="form-group">
+        <input class="input form-control" type="text" name="keepdescription" placeholder="Description" id="description" v-model="newkeep.Description">
+      </div>
+      <div class="form-group">
+        <input class="input form-control" type="text" name="keepimage" placeholder="Image Url" id="image" v-model="newkeep.ImageUrl">
+      </div>
+      <button class="btn btn-primary" type="submit">Create Keep</button>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 keepFormat" v-for="keep in keeps" v-bind:key="keep._id">
+      <div class="card cK">
+        <img class="card-img-top" :src="keep.imageUrl" alt="Images">
+        <div class="card-body">
+          <p class="card-title">{{keep.name}}</p> 
+          <p class="card-text">{{keep.description}}</p>
+          <p class="card-text">Shares: {{keep.share}}</p>
+          <p class="card-text">Views: {{keep.view}}</p>
+          <vaultkeep :keep="keep"></vaultkeep>
+        </div>
+      </div>
+    </div>
   </div>
   </div>
-  </div>
+ 
 </template>
 
 <script>
@@ -145,21 +89,53 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .bgFormat {
-  background-color:aquamarine;
+  background-color:rgb(19,148,73);
 }
-h1,
-h2 {
-  font-weight: normal;
+.keepFormat{
+   border: 1px solid black;
+   height:fit-content;
+/*  margin: 1em auto;
+  padding: 1em 1em;
+  
+ 
+  border-radius:5px; */
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.cK{
+    border: 1px solid black;
+ /* margin: 1em 1em;  */
+  /* padding: 1em 1em; */
+  /* height:fit-content; */
+ 
+  border-radius:5px;
+  /* width:100%; */
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+p {
+  /* text-align: left; */
+  padding: 1px;
+  margin:1px;
 }
-a {
-  color: #42b983;
+.card-body{
+  background-color:grey;
+  margin:0px;
+}
+.createKeepFormat{
+ 
+  padding:10px;
+  border-top: 10px solid black;
+  border-bottom: 5px solid black;
+  /* border-radius: 10px; */
+}
+.cKForm{
+  background-color:cadetblue;
+  border-radius:10px;
+  margin:10px;
+  padding:10px;
+}
+.form-group{
+  margin:5px;
+
+}
+.form-group:hover{
+  box-shadow: 0px 0px 5px 3px grey;
 }
 </style>

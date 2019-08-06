@@ -1,22 +1,22 @@
 <template>
     
-    <div class="vault row">
+    <div class="vault row vaultFormat">
       <div class="col-12">
-      <button v-if="activeVault.id" class="btn btn-danger" @click="deleteVault(activeVault)">Delete Vault</button>
-      <p>{{activeVault.name}}</p>
-      <p>{{activeVault.description}}</p>
-    </div>
-        
-        
-        <div class="vaultKeepFormat col-4" v-for="keeps in vaultKeepers" v-bind:key="keeps._id">
-        <img class="img-fluid" :src="keeps.imageUrl" alt="Fun fun">
-
+        <p>{{activeVault.name}}</p>
+        <p>{{activeVault.description}}</p>
+      </div>
+      <div class="vaultKeepFormat col-4" v-for="keeps in vaultKeepers" v-bind:key="keeps._id">
+        <img class="img-fluid" :src="keeps.imageUrl" alt="fun fun">
         <p>{{keeps.name}}</p> 
         <p>{{keeps.description}}</p>
         <p>Shares: {{keeps.share}}</p>
         <p>Views: {{keeps.view}}</p>
-        <button @click="deleteVaultKeep(keeps)">Delete VK</button>
-        </div>
+        <button class="btn btn-danger" @click="deleteVaultKeep(keeps)">Delete</button>
+      </div>
+    
+      <div class="col-12 deleteVault">
+         <button v-if="activeVault.id" class="btn btn-danger" @click="deleteVault(activeVault)">Delete Vault</button>
+      </div>
     </div>
   
 </template>
@@ -90,26 +90,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.vaultFormat{
+  border: 5px solid black;
+  
+}
 .vaultKeepFormat{
   background-color: rgb(100, 170, 120);
-  border-radius: 10%;
+  border-radius: 10px;
   border: 1px black solid;
   width: 80%;
-  margin: 0 auto; 
+  /* margin: 0 auto;  */
+  height:fit-content;
+  text-align: left;
 }
-h1,
-h2 {
-  font-weight: normal;
+.deleteVault{
+  margin: 5px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
